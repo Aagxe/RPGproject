@@ -243,3 +243,19 @@ ModelManifest.xml
 
 # FAKE - F# Make
 .fake/
+/Assets/Animation
+/Assets/Atlas
+/Assets/HUD Text
+/Assets/NGUI
+/Assets/Plugins/Pixelplacement/iTween
+/Assets/Prefabs
+/Assets/RPG
+/Assets/Scenes
+/Assets/Standard Assets
+/Assets/TextInfo
+/Assets/Textures
+/Library/metadata
+/Library/ScriptAssemblies
+/Library
+/ProjectSettings
+/Temp
