@@ -52,8 +52,18 @@ public class InventoryItemGrid : MonoBehaviour {
 	{
 		m_id = "";
 		m_itemNum = 0;
+		m_itemNumLable.text = m_itemNum.ToString();
 		m_itemNumLable.enabled = false;
 		m_info = null;
+	}
+
+	/// <summary>
+	/// 清除格子信息包括其子物品
+	/// </summary>
+	public void CleanInfoInChildren()
+	{
+		CleanInfo();
+		item.CleanInfo();
 	}
 
 	public void PlusNumber(int num = 1)
@@ -71,8 +81,7 @@ public class InventoryItemGrid : MonoBehaviour {
 
 			if (m_itemNum == 0)
 			{
-				CleanInfo();
-				Destroy(GetComponentInChildren<InventoryItem>().gameObject);
+				CleanInfoInChildren();
 			}
 
 			return true;
@@ -81,13 +90,4 @@ public class InventoryItemGrid : MonoBehaviour {
 		return false;
 	}
 
-
-	public void DestroyGridItem()
-	{
-		if (id != "")
-		{
-			CleanInfo();
-			Destroy(GetComponentInChildren<InventoryItem>().gameObject);
-		}
-	}
 }

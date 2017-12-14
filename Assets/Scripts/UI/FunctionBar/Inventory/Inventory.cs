@@ -71,13 +71,24 @@ public class Inventory : MonoBehaviour {
 			//背包未满，则创建物体
 			if (grid != null)
 			{
-				//NGUI的实例化
-				GameObject itemGo = grid.gameObject.AddChild(inventoryItem);
-				itemGo.transform.localPosition = Vector3.zero;
+				InventoryItem item = grid.GetComponentInChildren<InventoryItem>();
 
-				//格子深度为5，数量为7，物品为6
-				itemGo.GetComponent<UISprite>().depth = 6;
-				grid.SetId(id, count);
+				//如果不存在隐藏的Item则创建
+				if(item == null )
+				{
+					//NGUI的实例化
+					GameObject itemGo = grid.gameObject.AddChild(inventoryItem);
+					itemGo.transform.localPosition = Vector3.zero;
+
+					//格子深度为5，数量为7，物品为6
+					itemGo.GetComponent<UISprite>().depth = 6;
+					grid.SetId(id, count);
+				}
+				else
+				{
+					item.GetComponent<UISprite>().enabled = true ;
+					grid.SetId(id, count);
+				}
 			}
 		}
 
@@ -182,11 +193,11 @@ public class Inventory : MonoBehaviour {
 		coinCount = PlayerPrefs.GetInt(SaveKeys.MONEY);
 		coinNumberLabel.text = coinCount.ToString();
 
-		//必须向清除所有数据
+		//必须清除所有数据
 		foreach (InventoryItemGrid temp in itemGrid)
 		{
 			//如果格子存在物品则清空信息，避免添加到背包时出错
-			temp.CleanInfo();
+			temp.CleanInfoInChildren();
 		}
 
 		

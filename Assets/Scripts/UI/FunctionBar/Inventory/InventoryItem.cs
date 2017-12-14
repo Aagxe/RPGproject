@@ -55,21 +55,37 @@ public class InventoryItem : UIDragDropItem {
 	{
 		base.OnDragDropRelease(surface);
 
+		bool isCleanChildren = false;
+
 		//拖放到空格子
 		if(surface.tag == Tags.inventoryItemGrid)
 		{
 			//拖放到非自身的空格子
 			if (surface != transform.parent.gameObject)
 			{
+
+				InventoryItem hideItem = surface.GetComponentInChildren<InventoryItem>();
 				InventoryItemGrid oldGrid = transform.parent.GetComponent<InventoryItemGrid>();
-
-				//必须把设置放在SetId之前,SetId会获取子组件
-				transform.parent = surface.transform;
-
 				InventoryItemGrid newGrid = surface.GetComponent<InventoryItemGrid>();
-				newGrid.SetId(oldGrid.id, oldGrid.itemNum);
 
-				oldGrid.CleanInfo();
+				//判断这个空格子是真的没有物体，还是有一个隐藏的InventoryItem
+				if (hideItem == null)
+				{
+					//必须把设置放在SetId之前,SetId会获取子组件
+					transform.parent = surface.transform;
+
+					newGrid.SetId(oldGrid.id, oldGrid.itemNum);
+
+					oldGrid.CleanInfo();
+				}
+				else
+				{
+					hideItem.GetComponent<UISprite>().enabled = true;
+					newGrid.SetId(oldGrid.id, oldGrid.itemNum);
+
+					oldGrid.CleanInfoInChildren();
+					isCleanChildren = true;
+				}
 			}
 		}
 		//拖放到有物品的格子，两个格子信息交换
@@ -91,7 +107,11 @@ public class InventoryItem : UIDragDropItem {
 		}
 
 		ResetItemPosition();
-		transform.parent.GetComponentInChildren<UILabel>().enabled = true;
+
+		//因为如果清空格子的子物体代表会执行隐藏操作，这里把它显示有不合理
+		if(isCleanChildren == false)
+			transform.parent.GetComponentInChildren<UILabel>().enabled = true;
+
 		sprite.depth = originalDepth;
 	}
 
@@ -117,6 +137,11 @@ public class InventoryItem : UIDragDropItem {
 	{
 		sprite.spriteName = icon_name;
 		m_id = id;
+	}
+
+	public void CleanInfo()
+	{
+		sprite.enabled = false;
 	}
 
 	//UIEventListener和UIEventOver触发
