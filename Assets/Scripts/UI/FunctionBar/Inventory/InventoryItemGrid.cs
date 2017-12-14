@@ -63,7 +63,9 @@ public class InventoryItemGrid : MonoBehaviour {
 	public void CleanInfoInChildren()
 	{
 		CleanInfo();
-		item.CleanInfo();
+
+		if(item != null)
+			item.CleanInfo();
 	}
 
 	public void PlusNumber(int num = 1)
