@@ -17,9 +17,9 @@ public class EquipmentUI : MonoBehaviour {
 	private GameObject accessory;   //首饰
 
 	//装备加成
-	private int attack;
-	private int defense;
-	private int speed;
+	private int m_attack;
+	private int m_defense;
+	private int m_speed;
 
 	private PlayerStatus playerStatus;
 
@@ -30,27 +30,27 @@ public class EquipmentUI : MonoBehaviour {
 		get { return _instance; }
 	}
 
-	public int Attack
+	public int attack
 	{
 		get
 		{
-			return attack;
+			return m_attack;
 		}
 	}
 
-	public int Defense
+	public int defense
 	{
 		get
 		{
-			return defense;
+			return m_defense;
 		}
 	}
 
-	public int Speed
+	public int speed
 	{
 		get
 		{
-			return speed;
+			return m_speed;
 		}
 	}
 
@@ -170,9 +170,9 @@ public class EquipmentUI : MonoBehaviour {
 	//更新属性
 	private void UpdateProperty()
 	{
-		attack = 0;
-		defense = 0;
-		speed = 0;
+		m_attack = 0;
+		m_defense = 0;
+		m_speed = 0;
 
 		//取得每一个格子下面是否有装备
 		EquipmentItem headgearItem = headgear.GetComponentInChildren<EquipmentItem>();
@@ -200,9 +200,9 @@ public class EquipmentUI : MonoBehaviour {
 		if(item != null)
 		{
 			ObjectInfo equipInfo = ObjectsInfo.instance.GetObjectInfoById(item.id);
-			attack += equipInfo.attack;
-			defense += equipInfo.defense;
-			speed += equipInfo.speed;
+			m_attack += equipInfo.attack;
+			m_defense += equipInfo.defense;
+			m_speed += equipInfo.speed;
 		}
 	}
 
@@ -238,6 +238,7 @@ public class EquipmentUI : MonoBehaviour {
 
 	public void Load()
 	{
+		//运行状态读取和保存没问题，非运行状态读取会导致全部装备去到一个格子
 		LoadEquip(PlayerPrefs.GetString(SaveKeys.HEADGEAR_ITEM_ID)  , headgear);
 		LoadEquip(PlayerPrefs.GetString(SaveKeys.ARMOR_ITEM_ID)     , armor);
 		LoadEquip(PlayerPrefs.GetString(SaveKeys.LEFT_HAND_ITEM_ID) , leftHand);
@@ -252,7 +253,7 @@ public class EquipmentUI : MonoBehaviour {
 	
 		EquipmentItem item = parent.GetComponentInChildren<EquipmentItem>();
 
-		if (itemID != "")
+		if (itemID == "")
 		{
 			//读取的数据为空，装备栏不为空
 			if (item != null)
@@ -267,11 +268,11 @@ public class EquipmentUI : MonoBehaviour {
 			}
 			else
 			{
-				GameObject itemGo = headgear.AddChild(equipmentItem);
+				GameObject itemGo = parent.AddChild(equipmentItem);
 				itemGo.transform.localPosition = Vector3.zero;
 				itemGo.GetComponent<EquipmentItem>().SetId(itemID);
 
-				itemGo.GetComponent<UISprite>().depth = headgear.GetComponent<UISprite>().depth + 1;
+				itemGo.GetComponent<UISprite>().depth = parent.GetComponent<UISprite>().depth + 1;
 			}
 		}
 

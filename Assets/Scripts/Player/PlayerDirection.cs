@@ -89,14 +89,11 @@ public class PlayerDirection : MonoBehaviour {
 	}
 
 	//控制玩家朝向目标位置
-	private void LookRotationTarget(Vector3 groundHitPoint)
+	public void LookRotationTarget(Vector3 targetPos)
 	{
-		targetPosition = groundHitPoint;
+		targetPosition = targetPos;
 
-		Vector3 offset = targetPosition - transform.position;
-
-		//指的是y轴的高度偏移了多少，而不是y轴需要旋转的角度是多少
-		offset.y = 0;
-		transform.rotation = Quaternion.LookRotation(offset);
+		targetPosition.Set(targetPosition.x, transform.position.y, targetPosition.z);
+		transform.LookAt(targetPosition);
 	}
 }

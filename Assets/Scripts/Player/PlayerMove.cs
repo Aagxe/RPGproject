@@ -54,8 +54,8 @@ public class PlayerMove : MonoBehaviour {
 
 	public void SimpleMove(Vector3 targetPosition)
 	{
-		//朝向target，Direction控制的是点击地面
-		transform.LookAt(targetPosition);
+		//朝向target
+		dir.LookRotationTarget(targetPosition);
 
 		//移动
 		player.SimpleMove(transform.forward * speed);

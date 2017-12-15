@@ -70,15 +70,19 @@ public class Status : MonoBehaviour {
 	/// </summary>
 	public void UpdateShow()
 	{
-		attackLable.text = playerStatus.attack_base + " + " + playerStatus.attack_plus;
-		defenseLable.text = playerStatus.defense_base + " + " + playerStatus.defense_plus;
-		speedLable.text = playerStatus.speed_base + " + " + playerStatus.speed_plus;
+		float attack = playerStatus.attack_base + playerStatus.attack_plus;
+		float defense = playerStatus.defense_base + playerStatus.defense_plus;
+		float speed = playerStatus.speed_base + playerStatus.speed_plus;
+
+		attackLable.text = attack + "(" + (attack + EquipmentUI.instance.attack) + ")" ;
+		defenseLable.text = defense + "(" + (defense + EquipmentUI.instance.defense) + ")";
+		speedLable.text = speed + "(" + (speed + EquipmentUI.instance.speed) + ")";
 
 		pointRemainLable.text = playerStatus.point_remain.ToString();
 
-		summaryLable.text = "攻击：" + (playerStatus.attack_base + playerStatus.attack_plus)
-			+ "  防御：" + (playerStatus.defense_base + playerStatus.defense_plus)
-			+ "  速度：" + (playerStatus.speed_base + playerStatus.speed_plus);
+		summaryLable.text = "攻击：" + (attack + EquipmentUI.instance.attack)
+			+ "  防御：" + (defense + EquipmentUI.instance.defense)
+			+ "  速度：" + (speed + EquipmentUI.instance.speed);
 
 		if (playerStatus.point_remain > 0)
 		{

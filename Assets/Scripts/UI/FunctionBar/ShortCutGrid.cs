@@ -22,6 +22,7 @@ public class ShortCutGrid : MonoBehaviour {
 
 	private PlayerStatus playerStatus;
 	private PlayerAttack playerAttack;
+	private PlayerMove playerMove;
 
 	private void Awake()
 	{

@@ -27,6 +27,7 @@ public class PlayerAttack : MonoBehaviour {
 
 	private Transform targetNormalAttack;		    //普通攻击的对象，为了区分技能攻击
 	private PlayerMove playerMove;
+	private PlayerDirection playerDir;
 	private Animation anim;
 	private PlayerStatus playerStatus;
 	private Renderer bodyRenderer;                  //控制受伤改变颜色
@@ -77,13 +78,14 @@ public class PlayerAttack : MonoBehaviour {
 	{
 		playerStatus = GetComponent<PlayerStatus>();
 		playerMove = GetComponent<PlayerMove>();
+		playerDir = GetComponent<PlayerDirection>();
 		anim = GetComponent<Animation>();
 		hudTextFollow = transform.Find("HUDText").gameObject;
 
 		bodyRenderer = body.GetComponent<Renderer>();
 		normalColor = bodyRenderer.material.color;
 
-		animNow = animIdle;
+		animNow = animNormalAttack;
 	}
 
 	private void Start()
@@ -114,6 +116,10 @@ public class PlayerAttack : MonoBehaviour {
 		if(playerState == PlayerState.NormalAttack)
 		{
 			OnAttack();
+		}
+		else if(playerState == PlayerState.SkillAttack)
+		{
+			anim.CrossFade(animIdle);
 		}
 		else if(playerState == PlayerState.Death)
 		{
@@ -155,15 +161,18 @@ public class PlayerAttack : MonoBehaviour {
 		if (targetNormalAttack == null)
 		{
 			playerState = PlayerState.ControlWalk;
+
+			//这样可以避免攻击结束后又跑到之前指定的位置
+			playerDir.targetPosition = transform.position;
 			return;
 		}
 
+		playerDir.LookRotationTarget(targetNormalAttack.position);
 		float distance = Vector3.Distance(targetNormalAttack.position, transform.position);
-		transform.LookAt(targetNormalAttack);
+
 		//进行攻击
 		if (distance <= minDistance)
 		{
-
 			//必须改变攻击状态，避免PlayerAnimation中同时执行跑的动画
 			attackAnimState = AttackAnimState.Attack;
 
@@ -186,7 +195,7 @@ public class PlayerAttack : MonoBehaviour {
 			}
 
 			//计时大于攻击速率，重新启动攻击
-			if (animTimer > (1f / attackRate) && isAttacked)
+			if ((animTimer > (1f / attackRate)) && isAttacked)
 			{
 				animTimer = 0;
 				animNow = animNormalAttack;
@@ -209,7 +218,7 @@ public class PlayerAttack : MonoBehaviour {
 	/// </summary>
 	public int GetAttack()
 	{
-		return EquipmentUI.instance.Attack + (int)playerStatus.attack_base + playerStatus.attack_plus;
+		return EquipmentUI.instance.attack + (int)playerStatus.attack_base + playerStatus.attack_plus;
 	}
 
 
@@ -217,7 +226,7 @@ public class PlayerAttack : MonoBehaviour {
 	{
 		if (playerState == PlayerState.Death)
 			return;
-		float def = EquipmentUI.instance.Defense + playerStatus.defense_base + playerStatus.defense_plus;
+		float def = EquipmentUI.instance.defense + playerStatus.defense_base + playerStatus.defense_plus;
 
 		//防御公式(200 - def) / 200
 		float temp = attack * ((200 - def) / 200);

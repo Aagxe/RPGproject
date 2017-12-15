@@ -30,6 +30,8 @@ public class GameSave : MonoBehaviour {
 		else if (Input.GetKeyDown(KeyCode.L))
 		{
 			Inventory.instance.Load();
+			EquipmentUI.instance.Load();
+			playerStatus.Load();
 		}
 	}
 }

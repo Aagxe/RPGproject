@@ -180,5 +180,10 @@ public class PlayerStatus :MonoBehaviour{
 		speed_plus = PlayerPrefs.GetInt(SaveKeys.SPEED_PLUS);
 
 		point_remain = PlayerPrefs.GetInt(SaveKeys.POINT_REMAIN);
+
+		//更新人物面板显示
+		HeadStatusUI.instance.UpdatePropertyShow();
+		int totalExp = 100 + level * 30;
+		ExpBar.instance.SetValue(this.exp / totalExp);
 	}
 }

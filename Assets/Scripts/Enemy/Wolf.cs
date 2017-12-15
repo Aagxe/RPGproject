@@ -98,12 +98,6 @@ public class Wolf : MonoBehaviour {
 
 	private void Update()
 	{
-#if UNITY_EDITOR
-		if(Input.GetKeyDown(KeyCode.Space))
-		{
-			TakeDamage(50);
-		}
-#endif
 		//死亡
 		if (state == WolfState.Death)
 		{
