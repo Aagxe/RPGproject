@@ -434,7 +434,10 @@ public class PlayerAttack : MonoBehaviour {
 	{
 		if(skillInfo != null)
 		{
-			switch(skillInfo.applyType)
+			//这样可以避免攻击结束后又跑到之前指定的位置
+			playerDir.targetPosition = transform.position;
+
+			switch (skillInfo.applyType)
 			{
 				case ApplyType.SingleTarget:
 					StartCoroutine(OnLockSingleTarget());

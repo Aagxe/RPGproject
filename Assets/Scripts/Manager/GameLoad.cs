@@ -26,4 +26,14 @@ public class GameLoad : MonoBehaviour {
 
 		go.GetComponent<PlayerStatus>().playerName = playerName;
 	}
+
+	private void Start()
+	{
+		//等于1代表点了LoadGame
+		int save = PlayerPrefs.GetInt(SaveKeys.DATA_FROM_SAVE);
+		if (save == 1)
+		{
+			GameSave.instance.Load();
+		}
+	}
 }

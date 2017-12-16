@@ -9,6 +9,7 @@ public enum ShortCutType
 	Drug
 }
 
+
 public class ShortCutGrid : MonoBehaviour {
 
 	public KeyCode keyCode;
@@ -76,7 +77,7 @@ public class ShortCutGrid : MonoBehaviour {
 		skillInfo = SkillsInfo.instance.GetSkillInfoById(id);
 		icon.spriteName = skillInfo.icon_name;
 
-		//技能拖拽上去之后，关闭显示，为了区分药品显示的数量
+		//技能拖拽上去之后，关闭显示
 		keyNum.gameObject.SetActive(false);
 	}
 
@@ -95,7 +96,7 @@ public class ShortCutGrid : MonoBehaviour {
 
 			icon.spriteName = objectInfo.icon_name;
 
-			//待添加显示药品数量功能
+			keyNum.gameObject.SetActive(false);
 		}
 	}
 
@@ -133,7 +134,32 @@ public class ShortCutGrid : MonoBehaviour {
 				break;
 		}
 
-		//根据名字保存id
-		PlayerPrefs.SetString(gameObject.name, m_id);
+		//根据技能栏名字保存id
+		PlayerPrefs.SetString(gameObject.name + "_Id", m_id);
+	}
+
+	public void Load()
+	{
+		int type = PlayerPrefs.GetInt(gameObject.name);
+		m_id = PlayerPrefs.GetString(gameObject.name + "_Id");
+
+		switch (type)
+		{
+			// 0必须是None，因为有可能读取到的就是没存东西，然后返回0
+			case 0:
+				shortCutType = ShortCutType.None;
+				icon.gameObject.SetActive(false);
+				break;
+			case 1:
+				shortCutType = ShortCutType.Skill;
+				SetSkill(m_id);
+				break;
+			case 2:
+				shortCutType = ShortCutType.Drug;
+				SetInventoryItem(m_id);
+				break;
+		}
+
+		
 	}
 }
