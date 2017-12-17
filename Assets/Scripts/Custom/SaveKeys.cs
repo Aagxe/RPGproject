@@ -36,4 +36,8 @@ public class SaveKeys {
 	public const string DEFENSE_PLUS = "DefensePlus";
 	public const string SPEED_PLUS = "SpeedPlus";
 	public const string POINT_REMAIN = "PointRemain";
+
+	//任务
+	public const string IS_IN_TASK = "IsInTask";
+	public const string KILL_COUNT = "KillCount";
 }

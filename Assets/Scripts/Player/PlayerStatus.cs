@@ -149,18 +149,16 @@ public class PlayerStatus :MonoBehaviour{
 		PlayerPrefs.SetInt(SaveKeys.POINT_REMAIN, point_remain);
 	}
 
-	public void Load()
+	public bool Load()
 	{
 		string hero = PlayerPrefs.GetString(SaveKeys.HERO_TYPE);
-		switch(hero)
+
+		if(hero != heroType.ToString())
 		{
-			case "Magician":
-				heroType = HeroType.Magician;
-				break;
-			case "Swordman":
-				heroType = HeroType.Swordman;
-				break;
+			Debug.Log("英雄类型不同，无法加载");
+			return false;
 		}
+
 
 		playerName = PlayerPrefs.GetString(SaveKeys.NAME);
 
@@ -185,5 +183,7 @@ public class PlayerStatus :MonoBehaviour{
 		HeadStatusUI.instance.UpdatePropertyShow();
 		int totalExp = 100 + level * 30;
 		ExpBar.instance.SetValue(this.exp / totalExp);
+
+		return true;
 	}
 }

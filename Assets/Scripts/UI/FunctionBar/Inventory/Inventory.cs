@@ -26,12 +26,10 @@ public class Inventory : MonoBehaviour {
 
 	void Update()
 	{
-#if UNITY_EDITOR
 		if (Input.GetKey(KeyCode.X))
 		{
 			AddItemToBag(Random.Range(2001, 2023).ToString());
 		}
-#endif
 	}
 
 

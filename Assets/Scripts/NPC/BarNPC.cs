@@ -126,4 +126,28 @@ public class BarNPC : NPC {
 			HiddenQuest();
 		}
 	}
+
+	public void Save()
+	{
+		if(_isInTask)
+		{
+			PlayerPrefs.SetInt(SaveKeys.IS_IN_TASK, 1);
+		}
+		else
+		{
+			PlayerPrefs.SetInt(SaveKeys.IS_IN_TASK, 0);
+		}
+
+		PlayerPrefs.SetInt(SaveKeys.KILL_COUNT, killCount);
+	}
+
+	public void Load()
+	{
+		//如果在任务中
+		if(PlayerPrefs.GetInt(SaveKeys.IS_IN_TASK) == 1)
+		{
+			_isInTask = true;
+			killCount = PlayerPrefs.GetInt(SaveKeys.KILL_COUNT);
+		}
+	}
 }

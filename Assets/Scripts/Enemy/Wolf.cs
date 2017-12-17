@@ -21,6 +21,7 @@ public class Wolf : MonoBehaviour {
 	private Renderer m_renderer;
 	private PlayerStatus playerStatus;
 	private PlayerAttack playerAttack;
+	private GameObject player;
 
 	//HUDText
 	public GameObject hudTextPrefab;
@@ -82,7 +83,7 @@ public class Wolf : MonoBehaviour {
 
 	private void Start()
 	{
-		GameObject player = GameObject.FindGameObjectWithTag(Tags.player);
+		player = GameObject.FindGameObjectWithTag(Tags.player);
 		playerStatus = player.GetComponent<PlayerStatus>();
 		playerAttack = player.GetComponent<PlayerAttack>();
 
@@ -180,7 +181,7 @@ public class Wolf : MonoBehaviour {
 		//转换为攻击状态
 		state = WolfState.Attack;
 		//target会被设置为null，所以要每一次受伤都设置
-		target = GameObject.FindGameObjectWithTag(Tags.player).transform;
+		target = player.transform;
 
 		float value = Random.Range(0f, 1f);
 
@@ -252,8 +253,13 @@ public class Wolf : MonoBehaviour {
 
 		float distance = Vector3.Distance(transform.position, target.position);
 
+		//朝向target
+		Vector3 offset = target.position - transform.position;
+		offset.y = 0;
+		transform.rotation = Quaternion.LookRotation(offset);
+
 		//超出了距离，停止攻击
-		if(distance > maxDistance)
+		if (distance > maxDistance)
 		{
 			target = null;
 			state = WolfState.Idle;
@@ -301,11 +307,6 @@ public class Wolf : MonoBehaviour {
 		//跟踪目标
 		else
 		{
-			//朝向target
-			Vector3 offset = target.position - transform.position;
-			offset.y = 0;
-			transform.rotation = Quaternion.LookRotation(offset);
-
 			//移动
 			enemy.SimpleMove(transform.forward * speed);
 

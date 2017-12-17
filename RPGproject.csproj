@@ -228,8 +228,11 @@
     <Compile Include="Assets\RPG\Effect\Effects_02\AnimationSpeed.cs" />
     <Compile Include="Assets\RPG\Effect\Effects_02\ScrollUV.cs" />
     <Compile Include="Assets\Scripts\CharacterCreation\CharacterCreation.cs" />
+    <Compile Include="Assets\Scripts\Custom\DeadthPanel.cs" />
     <Compile Include="Assets\Scripts\Custom\ObjectsInfo.cs" />
+    <Compile Include="Assets\Scripts\Custom\PausePanel.cs" />
     <Compile Include="Assets\Scripts\Custom\ResetInCache.cs" />
+    <Compile Include="Assets\Scripts\Custom\SaveEffect.cs" />
     <Compile Include="Assets\Scripts\Custom\SaveKeys.cs" />
     <Compile Include="Assets\Scripts\Custom\SkillsInfo.cs" />
     <Compile Include="Assets\Scripts\Custom\Tags.cs" />

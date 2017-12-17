@@ -32,6 +32,8 @@ public class PlayerAttack : MonoBehaviour {
 	private PlayerStatus playerStatus;
 	private Renderer bodyRenderer;                  //控制受伤改变颜色
 	public AudioClip missSound;
+	public AudioClip buffSound;
+	public AudioClip normalAttackSound;
 	public GameObject body;
 
 	//HUDText
@@ -45,6 +47,7 @@ public class PlayerAttack : MonoBehaviour {
 	public string animIdle;
 	public string animDeath;
 	private string animNow;
+	private string animSkill;
 	private float animTimer;                        //动画计时器
 	public GameObject AttackEffect;					//攻击特效
 
@@ -86,6 +89,7 @@ public class PlayerAttack : MonoBehaviour {
 		normalColor = bodyRenderer.material.color;
 
 		animNow = animNormalAttack;
+		animSkill = animIdle;
 	}
 
 	private void Start()
@@ -119,11 +123,13 @@ public class PlayerAttack : MonoBehaviour {
 		}
 		else if(playerState == PlayerState.SkillAttack)
 		{
-			anim.CrossFade(animIdle);
+			anim.CrossFade(animSkill);
 		}
 		else if(playerState == PlayerState.Death)
 		{
 			anim.CrossFade(animDeath);
+
+			DeadthPanel.instance.OnShowDeadthPanel();
 		}
 
 
@@ -191,6 +197,8 @@ public class PlayerAttack : MonoBehaviour {
 					//攻击特效
 					Instantiate(AttackEffect, targetNormalAttack.position, Quaternion.identity);
 					targetNormalAttack.GetComponent<Wolf>().TakeDamage(GetAttack());
+
+					AudioSource.PlayClipAtPoint(normalAttackSound, targetNormalAttack.position);
 				}
 			}
 
@@ -334,12 +342,15 @@ public class PlayerAttack : MonoBehaviour {
 
 	private IEnumerator OnUsePassiveSkill(SkillInfo info)
 	{
+		AudioSource.PlayClipAtPoint(buffSound, transform.position);
+
 		//设置状态，播放动画
 		playerState = PlayerState.SkillAttack;
-		anim.CrossFade(info.animNmae);
-		
-		//等待动画播放完毕
+
+		//设置动画
+		animSkill = info.animNmae;
 		yield return new WaitForSeconds(info.animTime);
+		animSkill = animIdle;
 
 		//因为是增益技能，所以可以播放完动画就改状态
 		playerState = PlayerState.ControlWalk;
@@ -361,12 +372,15 @@ public class PlayerAttack : MonoBehaviour {
 	
 	private IEnumerator OnUseBuffSkill(SkillInfo info)
 	{
+		AudioSource.PlayClipAtPoint(buffSound, transform.position);
+
 		//设置状态，播放动画
 		playerState = PlayerState.SkillAttack;
-		anim.CrossFade(info.animNmae);
 
-		//等待动画播放完毕
+		//设置动画
+		animSkill = info.animNmae;
 		yield return new WaitForSeconds(info.animTime);
+		animSkill = animIdle;
 
 		//因为是增强技能，所以可以播放完动画就改状态
 		playerState = PlayerState.ControlWalk;
@@ -464,10 +478,10 @@ public class PlayerAttack : MonoBehaviour {
 
 			playerStatus.GetMP(skillInfo.mp);
 
-			anim.CrossFade(skillInfo.animNmae);
-
-			//等待动画播放完毕
+			//设置动画
+			animSkill = skillInfo.animNmae;
 			yield return new WaitForSeconds(skillInfo.animTime);
+			animSkill = animIdle;
 
 			playerState = PlayerState.ControlWalk;
 
@@ -498,10 +512,10 @@ public class PlayerAttack : MonoBehaviour {
 
 			playerStatus.GetMP(skillInfo.mp);
 
-			anim.CrossFade(skillInfo.animNmae);
-
-			//等待动画播放完毕
+			//设置动画
+			animSkill = skillInfo.animNmae;
 			yield return new WaitForSeconds(skillInfo.animTime);
+			animSkill = animIdle;
 
 			playerState = PlayerState.ControlWalk;
 

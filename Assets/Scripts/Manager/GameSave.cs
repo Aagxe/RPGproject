@@ -8,6 +8,7 @@ public class GameSave : MonoBehaviour {
 	public ShortCutGrid[] ShortCutGridList;
 	private PlayerStatus playerStatus;
 
+
 	public static GameSave instance
 	{
 		get
@@ -40,28 +41,38 @@ public class GameSave : MonoBehaviour {
 
 	public void Save()
 	{
+		playerStatus.Save();
 		Inventory.instance.Save();
 		EquipmentUI.instance.Save();
-		playerStatus.Save();
 
 		foreach (ShortCutGrid temp in ShortCutGridList)
 		{
 			temp.Save();
 		}
 
+		BarNPC.instance.Save();
+
 		PlayerPrefs.Save();
 	}
 
 
-	public void Load()
+	public bool Load()
 	{
-		Inventory.instance.Load();
-		EquipmentUI.instance.Load();
-		playerStatus.Load();
-
-		foreach (ShortCutGrid temp in ShortCutGridList)
+		//如果无法读取代表英雄类型不同
+		if (playerStatus.Load())
 		{
-			temp.Load();
+			Inventory.instance.Load();
+			EquipmentUI.instance.Load();
+
+			foreach (ShortCutGrid temp in ShortCutGridList)
+			{
+				temp.Load();
+			}
+
+			BarNPC.instance.Load();
+
+			return true;
 		}
+		return false;
 	}
 }

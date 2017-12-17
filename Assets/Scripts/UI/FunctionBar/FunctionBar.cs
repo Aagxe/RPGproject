@@ -22,6 +22,6 @@ public class FunctionBar : MonoBehaviour {
 	}
 	public void OnSettingButtonClick()
 	{
-
+		PausePanel.instance.TransformState();
 	}
 }
