@@ -27,18 +27,6 @@ public class GameSave : MonoBehaviour {
 		playerStatus = GameObject.FindGameObjectWithTag(Tags.player).GetComponent<PlayerStatus>();
 	}
 
-	private void Update()
-	{
-		if (Input.GetKeyDown(KeyCode.Space))
-		{
-			Save();
-		}
-		else if (Input.GetKeyDown(KeyCode.L))
-		{
-			Load();
-		}
-	}
-
 	public void Save()
 	{
 		playerStatus.Save();

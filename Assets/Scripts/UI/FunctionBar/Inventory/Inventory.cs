@@ -24,15 +24,6 @@ public class Inventory : MonoBehaviour {
 		tween = GetComponent<UIPositionMove>();
 	}
 
-	void Update()
-	{
-		if (Input.GetKey(KeyCode.X))
-		{
-			AddItemToBag(Random.Range(2001, 2023).ToString());
-		}
-	}
-
-
 	//拾取到id物品，并添加到物品栏里面
 	public void AddItemToBag(string id, int count = 1)
 	{

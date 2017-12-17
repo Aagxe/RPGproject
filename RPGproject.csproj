@@ -238,6 +238,7 @@
     <Compile Include="Assets\Scripts\Custom\Tags.cs" />
     <Compile Include="Assets\Scripts\Enemy\Wolf.cs" />
     <Compile Include="Assets\Scripts\Enemy\WolfSpawn.cs" />
+    <Compile Include="Assets\Scripts\Manager\Cheat.cs" />
     <Compile Include="Assets\Scripts\Manager\CursorManager.cs" />
     <Compile Include="Assets\Scripts\Manager\GameLoad.cs" />
     <Compile Include="Assets\Scripts\Manager\GameSave.cs" />
