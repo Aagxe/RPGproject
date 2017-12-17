@@ -14,7 +14,7 @@ public class SaveEffect : MonoBehaviour {
 
 	void OnMouseOver()
 	{
-		if(Input.GetMouseButtonDown(0))
+		if(UICamera.isOverUI == false && Input.GetMouseButtonDown(0))
 		{
 			OnShowSavePanel();
 		}

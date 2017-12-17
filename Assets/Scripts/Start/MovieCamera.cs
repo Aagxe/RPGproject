@@ -7,7 +7,8 @@ public class MovieCamera : MonoBehaviour {
 
 	public float speed = 10;
 
-	private float endZ = -20;
+	//移动到石盘为-20,-41为welcome
+	private float endZ = -41;
 
 	void Update() {
 
