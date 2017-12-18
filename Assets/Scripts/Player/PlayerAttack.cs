@@ -124,6 +124,12 @@ public class PlayerAttack : MonoBehaviour {
 		else if(playerState == PlayerState.SkillAttack)
 		{
 			anim.CrossFade(animSkill);
+
+			//必须冻结旋转角度
+			Vector3 v = transform.eulerAngles;
+			v.x = 0;
+			v.z = 0;
+			transform.eulerAngles = v;
 		}
 		else if(playerState == PlayerState.Death)
 		{

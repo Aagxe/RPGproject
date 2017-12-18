@@ -74,15 +74,15 @@ public class FollowPlayer : MonoBehaviour {
             //玩家左右旋转 沿着y轴 通过鼠标x轴
             transform.RotateAround(player.position, player.up, Input.GetAxis("Mouse X") * rotateSpeed);
 
-            //记录相机沿x轴改变之前的数据
-            Vector3 originalPos = transform.position;
+			//记录相机沿x轴改变之前的数据
+			Vector3 originalPos = transform.position;
             Quaternion originalRotation = transform.rotation;
 
             //上下转动是相机本身 沿x轴 通过鼠标y轴
             transform.RotateAround(player.position, transform.right, -Input.GetAxis("Mouse Y") * rotateSpeed);
 
-            //欧拉角是属性面板上的数据，但是控制旋转的是四元数rotation
-            float x = transform.eulerAngles.x;
+			//欧拉角是属性面板上的数据，但是控制旋转的是四元数rotation
+			float x = transform.eulerAngles.x;
 
             //超出范围就让x轴回到上一次的数据
             if (x < 10 || x > 80)
@@ -93,7 +93,6 @@ public class FollowPlayer : MonoBehaviour {
 
             //修改旋转之后需要重新计算偏移值
             offset = transform.position - player.position;
-            
         }
     }
 }
